@@ -1,5 +1,8 @@
+from rich import print
+from rich.table import Table
 import datetime
 import json
+
 
 
 class Uppgift:
@@ -29,8 +32,15 @@ class TodoList:
         self.tasks.remove(task)
 
     def list_tasks(self):
+        table = Table(title="Mina uppgifter")
+        table.add_column("Titel", style="cyan")
+        table.add_column("Prioritet", style="magenta")
+        table.add_column("Status", style="green")
+        table.add_column("Datum", style="yellow")
         for task in self.tasks:
-            print(task)
+            status = "✓ Klar" if task.completed else "○ Pending"
+            table.add_row(task.title, task.prioritet, status, task.due_date)
+        print(table)
 
     def mark_task_as_completed(self, task):
         task.mark_as_completed()
