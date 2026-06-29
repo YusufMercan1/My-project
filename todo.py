@@ -3,18 +3,19 @@ import json
 
 
 class Uppgift:
-    def __init__(self, title, description, due_date):
+    def __init__(self, title, description, due_date, prioritet):
         self.title = title
         self.description = description
         self.due_date = due_date
         self.completed = False
+        self.prioritet= prioritet
 
     def mark_as_completed(self):
         self.completed = True
 
     def __str__(self):
         status = "Completed" if self.completed else "Pending"
-        return f"{self.title} - {status} (Due: {self.due_date})"
+        return f"{self.title} - {self.prioritet} - {status} (Due: {self.due_date})"
 
 
 class TodoList:
@@ -54,7 +55,8 @@ class TodoList:
                 task = Uppgift(
                     task_data["title"],
                     task_data["description"],
-                    task_data["due_date"]
+                    task_data["due_date"],
+                    task_data.get("prioritet", "medel")
                 )
                 task.completed = task_data["completed"]
                 self.tasks.append(task)
@@ -96,7 +98,8 @@ while True:
         title = input("Enter task title: ")
         description = input("Enter task description: ")
         due_date = input("Enter due date (YYYY-MM-DD): ")
-        task = Uppgift(title, description, due_date)
+        prioritet = input("Prioritet (hög/medel/låg): ")
+        task = Uppgift(title, description, due_date, prioritet)
         todo.add_task(task)
         print("Task added successfully.")
 
